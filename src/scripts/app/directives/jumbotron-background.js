@@ -35,8 +35,17 @@ define(['jquery', './main'],
 						element.css("background",
 							"url(" + m_canvas.toDataURL() + ")");
 					}
+					var h = $(window).height(), 
+						w = $(window).width();
 					$(window).resize(function() {
-						rerender()
+						var nh = $(window).height(), 
+							nw = $(window).width();
+						
+						if(nw != w){
+							rerender();
+						}
+						
+						h = nh; w = nw;
 					});
 					
 					rerender();

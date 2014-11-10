@@ -13,7 +13,9 @@ define(['angular',
 										'ui.router']);
 		console.log("App module initialized");
 		
-		app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
+		app.config([
+		'$stateProvider', '$urlRouterProvider', '$locationProvider',
+		function($stateProvider, $urlRouterProvider, $locationProvider) {
 
 			$urlRouterProvider.otherwise("/404");
 			
@@ -106,7 +108,7 @@ define(['angular',
 				});
 				
 			$locationProvider.html5Mode(true);
-		});
+		}]);
 		
 		
 		return app;
