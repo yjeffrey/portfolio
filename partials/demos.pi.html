@@ -1,0 +1,265 @@
+<div class="container">
+	<div class="row">
+		<h1>3 slow-converging approximations of π</h1>
+		<div class="col-sm-12">
+			<p>
+				Here are 3 approximations of π. 
+				They are in no way efficient ways of computing π, 
+				and there are much more efficient ways.
+			</p>
+			<p>
+				All three approaches are done in linear time in respect of 
+				extra points or extra terms to use.
+				However the rate of convergence is different for each approach.
+				An extra point used or extra term used will affect
+				the accuracy of each three approaches differently.
+			</p>
+		</div>
+	</div>
+	<div class="row">
+		<h3>1. The Monte Carlo Method</h3>
+		<div class="col-sm-12">
+			<p>
+				The idea here is to randomly create points inside a square, 
+				and count the number of points that are inside the circle.
+				The ratio of points inside the circle to 
+				the points outside of the circle
+				approximates the ratio of the area of the circle to the area of the
+				square. We thus get an approximation of π.
+			</p>
+		</div>
+		<div class="col-sm-6">
+			<form ng-submit="monteCarlo()" role="form">
+				<div class="row form-group">
+					<label for="MonteCarloPi">Approximated π</label>
+					<input type="number" class="form-control" 
+						id="MonteCarloPi" 
+						ng-model="monteCarloPi"
+						readonly>
+				</div>
+				<div class="row form-group">
+					<label for="error">Error</label>
+					<input type="number" class="form-control" 
+						id="error" 
+						ng-value="Math.abs(Math.PI - monteCarloPi)"
+						readonly>
+				</div>
+				<div class="row form-group">
+					<label for="MonteCarloPointCount">Points to use:</label>
+					<input type="number" class="form-control" id="MonteCarloPointCount" 
+						min=1
+						max=9999999
+						step=1
+						ng-value=1000000
+						ng-model="monteCarloN"
+						placeholder="Points to use">
+				</div>
+				<div class="row">
+					<button class="btn btn-lg btn-primary" 
+						style="float:right" type="submit">
+						Approximate!
+					</button>
+				</div>
+			</form>
+		</div>
+		<div class="col-sm-6">
+			<canvas id="MonteCarloDemo" style="border: solid 1px black">
+			</canvas>
+		</div>
+	</div>
+	<div class="row">
+		<h3>2. Fourier Expansion of 
+			<script type="math/tex;">
+				| x |
+			</script>
+			from
+			<script type="math/tex;">
+				-\pi
+			</script> 
+			to 
+			<script type="math/tex;">
+				\pi
+			</script>
+		</h3>
+		<div class="col-md-6">
+			<p>
+				This approaches is to use the fourier expansion of
+				<script type="math/tex;">
+					| x |
+				</script>				
+				to derive 
+				<script type="math/tex;">
+					\pi
+				</script> 
+				as a series.
+			</p>
+			<h4>
+				<script type="math/tex; mode=display">
+					| x | =  \frac{\pi}{2} - \lim_{N\to\infty}\frac{4}{\pi} 
+					\sum\limits_{n=0}^N \frac{cos((2n+1)x)}{(2n+1)^2}
+				</script>
+			</h4>
+			<p>
+				If we set 
+				<script type="math/tex">
+					x = \pi
+				</script> 
+			</p>
+			<h4>
+				<script type="math/tex; mode=display">
+					\pi = \frac{\pi}{2} + \lim_{N\to\infty}\frac{4}{\pi} 
+					\sum\limits_{n=0}^N \frac{1}{(2n+1)^2} 
+				</script>
+			</h4>
+			<h4>
+				<script type="math/tex; mode=display">
+					\pi = \lim_{N\to\infty} \sqrt{8 \sum\limits_{n=0}^N \frac{1}{(2n+1)^2}}
+				</script>
+			</h4>
+			<p>
+				Due to the 
+				<script type="math/tex;">
+					| x |
+				</script>
+				not being an analytic function when periodically extended.
+				The fourier expansion does not converge
+				quickly (a lack of spectral convergence). 
+				This leads to a very inefficient approximation.
+			</p>
+		</div>
+		<div class="col-md-6">
+			<form ng-submit="seriesAbsX()" role="form">
+				<div class="row form-group">
+					<label for="AbsPi">Approximated π</label>
+					<input type="number" class="form-control" 
+						id="AbsPi" 
+						ng-model="absXPi"
+						readonly>
+				</div>
+				<div class="row form-group">
+					<label for="error">Error</label>
+					<input type="number" class="form-control" 
+						id="error" 
+						ng-value="Math.abs(Math.PI - absXPi)"
+						readonly>
+				</div>
+				<div class="row form-group">
+					<label for="AbsXNCount">Number of terms to use</label>
+					<input type="number" class="form-control" id="AbsXNCount" 
+						min=1
+						max=9999999
+						step=1
+						ng-value=1000000
+						ng-model="absN"
+						placeholder="N">
+				</div>
+				<div class="row">
+					<button class="btn btn-lg btn-primary" 
+						style="float:right" type="submit">
+						Approximate!
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="row">
+		<h3>3. Fourier Expansion of 
+			<script type="math/tex;">
+				cos(\frac{x}{2})
+			</script>
+			from 
+			<script type="math/tex;">
+				-\pi
+			</script> 
+			to 
+			<script type="math/tex;">
+					\pi
+			</script>
+		</h3>
+		<div class="col-md-6">
+			<p>
+				We do the same approach as method 2, but this time with
+				<script type="math/tex;">
+					cos(\frac{x}{2})
+				</script>
+				instead.
+			</p>
+			<h4>
+				<script type="math/tex; mode=display">
+					cos(\frac{x}{2}) = 
+					\frac{2}{\pi} - \lim_{N\to\infty}\frac{4}{\pi} 
+					\sum\limits_{n=1}^N \frac{(-1)^n cos(nx)}{4(n)^2 - 1} 
+				</script>
+			</h4>
+			<p>
+				If we set 
+				<script type="math/tex;">
+					x = 0
+				</script> 
+			</p>
+			<h4>
+				<script type="math/tex; mode=display">
+					1 = 
+					\frac{2}{\pi} - \lim_{N\to\infty}\frac{4}{\pi} 
+					\sum\limits_{n=1}^N \frac{(-1)^n}{4(n)^2 - 1} 
+				</script>
+			</h4>
+			<h4>
+				<script type="math/tex; mode=display">
+					\pi =  2 - \lim_{N\to\infty}4 
+					\sum\limits_{n=1}^N \frac{(-1)^n}{4(n)^2 - 1} 
+				</script>
+			</h4>
+			<h4>
+				<script type="math/tex; mode=display">
+					\pi = 2 +
+					\lim_{N\to\infty}4 \sum\limits_{n=0}^{\lceil{\frac{N}{2}}\rceil} \frac{1}{4(2n+1)^2 - 1} -
+					\lim_{N\to\infty}4 \sum\limits_{n=0}^{\lceil{\frac{N}{2}}\rceil} \frac{1}{4(2n)^2 - 1} 
+				</script>
+			</h4>
+			<p>
+				As
+				<script type="math/tex;">
+					cos(\frac{x}{2})
+				</script>
+				is fully analytic. We achieve spectral accuracy using
+				the approximation of the function; the approximation is 
+				much better than method 2.
+			</p>
+		</div>
+		<div class="col-md-6">
+			<form ng-submit="seriesCos()" role="form">
+				<div class="row form-group">
+					<label for="CosPi">Approximated π</label>
+					<input type="number" class="form-control" 
+						id="CosPi" 
+						ng-model="cosPi"
+						readonly>
+				</div>
+				<div class="row form-group">
+					<label for="error">Error</label>
+					<input type="number" class="form-control" 
+						id="error" 
+						ng-value="Math.abs(Math.PI - cosPi)"
+						readonly>
+				</div>
+				<div class="row form-group">
+					<label for="CosXNCount">Number of terms to use</label>
+					<input type="number" class="form-control" id="CosXNCount" 
+						min=1
+						max=9999999
+						step=1
+						ng-value=1000000
+						ng-model="cosN"
+						placeholder="N">
+				</div>
+				<div class="row">
+					<button class="btn btn-lg btn-primary" 
+						style="float:right" type="submit">
+						Approximate!
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

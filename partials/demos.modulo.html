@@ -1,0 +1,151 @@
+<div class="container">
+	<div class="row">
+		<h1>Finite State Machines and the Modulus</h1>
+		<div class="col-sm-12">
+			<p>
+				The most intuitive way to find the remainder of a division operation
+				is to continuously subtract multiples of the divisor from the dividend.
+			</p>
+			<p>
+				However, another approach is to use generate a finite state machine, 
+				and run the dividend in binary form through the finite state machine
+				to find the remainder.
+			</p>
+			<p>
+				To generate this FSM, we consider what happens to the remainder
+				when we considered more digits of the dividend in binary.
+				The remainder is essentially doubled whenever we considered
+				an extra digits, and we increase the remainder if by 1 if the 
+				new digit is a 1. Using this approach, the remainder is always
+				less than 2 times the divisor. So we can take the remainder modulo
+				the divisor very easily.
+			</p>
+			<p>
+				By running the entire dividend in binary form through the FSM, and
+				keeping a track of how the remainder changes as we parse the
+				dividend, we can find the remainder very easily without guessing.
+			</p>
+		</div>
+	</div>
+	<div class="row">
+		<h3>Finite State Machine</h3>
+		<div class="col-xs-12 col-sm-3 col-md-2">
+			<form ng-submit="load(number, moduloNumber)" role="form">
+				<div class="row form-group">
+					<label for="ModuloNumber">Number</label>
+					<input type="number" class="form-control" 
+						id="ModuloNumber" 
+						min=1
+						max=99999999999
+						step=1
+						ng-model="number">
+				</div>
+				<div class="row form-group">
+					<label for="ModuloNumber">Modulo Number</label>
+					<input type="number" class="form-control" 
+						id="ModuloNumber" 
+						min=1
+						max=100
+						step=1
+						ng-model="moduloNumber">
+				</div>
+				<div class="row">
+					<button class="btn btn-lg btn-primary" 
+						style="float:right" type="submit">
+						Load
+					</button>
+				</div>
+			</form>
+		</div>
+		<div class="col-xs-12 col-sm-9 col-md-10">
+			<div class="row">
+				<div class="col-xs-12">
+					<h3>
+						{{value}} (mod {{mod}}) 
+						{{currentDigit == null ? '= ' + state: ''}}
+					</h3>
+					<h5>
+						{{value}} in binary: {{value.toString(2)}}
+					</h5>
+					<table class="fsm">
+						<thead>
+							<th>
+								Parsed
+							</th>
+							<th>
+								Next
+							</th>
+							<th>
+								Queued
+							</th>
+							<th>
+								r
+							</th>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									{{nBinParsed}}
+								</td>
+								<td>
+									{{currentDigit}}
+								</td>
+								<td>
+									{{nBin}}
+								</td>
+								<td>
+									{{state}}
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<table class="fsm">
+						<thead>
+							<th>
+								Current State
+							</th>
+							<th>
+								Next Digit
+							</th>
+							<th>
+								Next State
+							</th>
+						</thead>
+						<tbody>
+							<tr ng-repeat="transition in transitions"
+								ng-class="{
+									current: transition.from == state,
+									nextStep: transition.from == state &&
+									transition.next == currentDigit
+								}"
+								>
+								<td>
+									{{transition.from}}
+								</td>
+								<td>
+									{{transition.next}}
+								</td>
+								<td>
+									{{transition.to}}
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<form ng-submit="step()" role="form">
+					<div class="row">
+						<button class="btn btn-lg btn-primary" 
+							style="float:right" type="submit"
+							ng-disabled="currentDigit == null">
+							Step the DSM
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

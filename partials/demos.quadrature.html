@@ -1,0 +1,123 @@
+<div class="container">
+	<div class="row">
+		<h1>Adaptive Quadrature</h1>
+		<div class="col-sm-8 col-lg-10">
+			<p>
+				Quadratures rules are used to approximate integrals 
+				by utilizing function values of the integrand.
+				These approximations are useful in cases where
+				finding the anti-derivative of the integrand
+				is not possible.
+			</p>
+			<p>
+				An adaptive quadrature is a quadrature rule that
+				uses more points when the integrand becomes increasingly 
+				squiggly, and less points when the integrand is "straighter" 
+				in a subinterval of the integration domain. In essence, it performs
+				more calculations when the integrand is "harder" to approximate.
+			</p>
+			<p>
+				This was originally implemented in MatLab.
+			</p>
+		</div>
+		<div class="col-sm-4 col-lg-2">
+			<h3>
+				Given: 
+			</h3>
+			<h4>
+				<script type="math/tex">
+					 \varepsilon > | Q - \int_a^b \! f(x) \, \mathrm{d}x |
+				</script>
+			</h4>
+		</div>
+	</div>
+	<form ng-submit="quad()" role="form">
+		<div class="row">
+			<h3>
+				where
+			</h3>
+			<div class="col-md-5">
+				<h4 class="pseudo-label">Integrand</h4>
+				<div class="input-group">
+					<span class="input-group-addon">f(x) = </span>
+					<input type="text" 
+					id="IntegratedFunction"
+					class="form-control" 
+					ng-model="func"
+					placeholder="Your function of x">
+				</div>
+			</div>
+			
+			<div class="form-group col-md-4">
+				<h4 class="pseudo-label">Domain of Integration</h4>
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="input-group">
+							<span class="input-group-addon">a</span>
+							<input type="number"
+								id="LowerBound"
+								class="form-control no-webkit" 
+								ng-model="lowerBound"
+								step="any"
+								placeholder="Lower bound">
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="input-group">
+							<span class="input-group-addon">b</span>
+							<input type="number"
+								id="UpperBound"
+								class="form-control no-webkit" 
+								ng-model="upperBound"
+								step="any"
+								placeholder="Upper bound">
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-md-3">
+				<h4 class="pseudo-label">Error Bound</h4>
+				<div class="input-group">
+					<span class="input-group-addon">ε =</span>
+					<input type="number"
+						id="ErrorBound"
+						min=0.000000000001
+						max=1
+						step="any"
+						class="form-control no-webkit" 
+						ng-model="errorBound"
+						placeholder="The error bound">
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<button class="btn btn-lg btn-primary" style="float:right" type="submit">
+				Solve for Q!
+			</button>
+		</div>
+	</form>
+	<div class="row" id="QuadratureSolution">
+		<h1>The Solution</h1>
+		<div class="col-md-12">
+			<div ng-show="!functionProblem && quadrature != null && !maxDepthReached" class="alert alert-success" role="alert">
+				The approximated value is {{quadrature.value}} using {{quadrature.Q.length}} subintervals.
+			</div>
+			<div ng-show="!functionProblem && quadrature != null && maxDepthReached" class="alert alert-warning" role="alert">
+				The approximated value is {{quadrature.value}} using {{quadrature.Q.length}} subintervals.
+				<br>
+				The approximation may not be accurate in this case as it was stopped prematurely due to computing power.
+				<br>	
+				It is suggested to shorten the Domain of Integration and/or increase the error bound.
+			</div>
+			<div ng-show="functionProblem != null" class="alert alert-danger" role="alert">
+				{{functionProblem}}
+			</div>
+			<div ng-show="!functionProblem && quadrature == null" class="alert alert-info" role="alert">
+				Press the Solve button to generate the solution(s)!!
+			</div>
+			<div id="FunctionPlot" style="width:100%; height: 70vh">
+			</div>
+		</div>
+	</div>
+</div>
