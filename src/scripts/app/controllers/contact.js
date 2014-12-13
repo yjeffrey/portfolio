@@ -1,13 +1,13 @@
 define(['./main'],
 	function (controllerModule) {
-	
+
 		controllerModule
 		.controller('ContactController', ['$scope', '$http', function($scope, $http) {
-			
+
 			$scope.sending = false;
 			$scope.sent = false;
 			$scope.error = false;
-			
+
 			$scope.sendMessage = function(from, message){
 				$scope.sending = true;
 				$http.post('/contact', {
@@ -25,7 +25,7 @@ define(['./main'],
 					$scope.error = true;
 				});
 			};
-			
+
 		}]);
-	
+
 	});

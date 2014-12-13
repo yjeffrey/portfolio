@@ -12,6 +12,9 @@ requirejs.config({
 		"jquery": "//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min",
 		"math": "//cdnjs.cloudflare.com/ajax/libs/mathjs/1.0.1/math.min",
 		"mathjax": "//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML",
+		"modernizr": "//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min",
+		"three": "//cdnjs.cloudflare.com/ajax/libs/three.js/r69/three.min",
+		"three.orbit-control": "lib/OrbitControls",
         "ui-router": "//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.11/angular-ui-router.min" 
 	},
     shim : {
@@ -39,6 +42,15 @@ requirejs.config({
         "mathjax" : { 
 			"exports": "MathJax"
 		},
+        "modernizr" : { 
+			"exports": "Modernizr"
+		},
+        "three" : { 
+			"exports": "THREE"
+		},
+        "three.orbit-control" : { 
+			"deps" :['three'] 
+		},
         "ui-router" : { 
 			"deps" :['angular'] 
 		},
@@ -49,14 +61,14 @@ requirejs(['angular',
 			'jquery',
 			'app/main',
 			'mathjax',
-			'angular-strap',
-			'angular-strap.tpl',
 			'bootstrap'],
 	function (angular, $, app, MathJax){
 	
 		MathJax.Hub.Config({
 			extensions: ["jsMath2jax.js"],
-			showMathMenu: false
+			showMathMenu: false,
+			showProcessingMessages: false,
+			messageStyle: "none"
 		});
 
 		angular.element(document).ready(function() {

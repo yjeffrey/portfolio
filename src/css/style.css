@@ -36,6 +36,7 @@ body.loading div#Loader{
 .alert,
 .btn,
 .form-control,
+.input-group-addon:first-child ,
 .navbar-nav>li>.dropdown-menu {
 	border-radius: 0;
 }
@@ -153,7 +154,7 @@ a.navbar-brand,
 
 .jumbotron {
     background-color: transparent;
-	color: white;
+	color: #ecf0f1;
 }
 
 /* home */
@@ -215,11 +216,14 @@ input.sudoku-square {
 table.fsm{
 	width: 100%;
 }
-table.fsm tr.current td:first-child{
-	background-color: rgb(190, 255, 179);
+
+table.fsm tr>td{
+	padding: 2px 6px;
 }
+
+table.fsm tr.current td:first-child,
 table.fsm tr.nextStep{
-	background-color: rgb(190, 255, 179);
+	background-color: #C9FCB4;
 }
 
 /* contact */

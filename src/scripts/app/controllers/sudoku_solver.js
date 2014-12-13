@@ -1,6 +1,6 @@
 define(['angular', './main', '../services/all'],
 	function (angular, controllerModule, services) {
-	
+
 		controllerModule
 		.controller('SudokuSolverController', ['$scope', 'PageManipulationService', 
 		function($scope, PageManipulationService) {
@@ -8,7 +8,7 @@ define(['angular', './main', '../services/all'],
 				IMPOSSIBLE = 1,
 				INCOMPLETE = 2,
 				MAX_SOLUTION_COUNT = 27;
-			
+
 			$scope.MAX_SOLUTION_COUNT = MAX_SOLUTION_COUNT;
 			var sudokuGame = [
 				[null, null, null, null, null, null, null, null, null],
@@ -21,55 +21,55 @@ define(['angular', './main', '../services/all'],
 				[null, null, null, null, null, null, null, null, null],
 				[null, null, null, null, null, null, null, null, null]
 			];
-			
+
 			sudokuGame[0][5] = 9;
 			sudokuGame[0][6] = 6;
 			sudokuGame[0][7] = 1;
 			sudokuGame[0][8] = 3;
-			
+
 			sudokuGame[1][1] = 6;
 			sudokuGame[1][3] = 2;
 			sudokuGame[1][5] = 7;
 			sudokuGame[1][6] = 9;
 			sudokuGame[1][8] = 5;
-			
+
 			sudokuGame[2][1] = 5;
 			sudokuGame[2][7] = 8;
 			sudokuGame[2][8] = 2;
-			
+
 			sudokuGame[3][1] = 4;
 			sudokuGame[3][4] = 5;
 			sudokuGame[3][5] = 3;
 			sudokuGame[3][8] = 7;
-			
+
 			sudokuGame[4][1] = 1;
 			sudokuGame[4][4] = 9;
 			sudokuGame[4][7] = 3;
-			
+
 			sudokuGame[5][0] = 7;
 			sudokuGame[5][3] = 6;
 			sudokuGame[5][4] = 1;
 			sudokuGame[5][7] = 2;
-			
+
 			sudokuGame[6][1] = 9;
 			sudokuGame[6][7] = 6;
-			
+
 			sudokuGame[7][2] = 6;
 			sudokuGame[7][3] = 4;
 			sudokuGame[7][5] = 1;
 			sudokuGame[7][7] = 5;
-			
+
 			sudokuGame[8][1] = 8;
 			sudokuGame[8][2] = 4;
 			sudokuGame[8][3] = 9;
-			
+
 			$scope.sudokuGame = sudokuGame;
-			
+
 			$scope.solve = function(){
 				var input = $scope.sudokuGame;
-				
+
 				var initialState = [];
-				
+
 				var value;
 				var row;
 				for(var i = 0; i < 9; ++i){
@@ -91,7 +91,7 @@ define(['angular', './main', '../services/all'],
 					PageManipulationService.scrollTo("#SudokuSolutions");
 				}
 			};
-			
+
 			function innerSolve(state){
 				var status = doArc(state);
 				if($scope.solutionsCount >= MAX_SOLUTION_COUNT){
@@ -104,7 +104,7 @@ define(['angular', './main', '../services/all'],
 				else if(status == INCOMPLETE){
 					var halfStateA = angular.copy(state),
 						halfStateB = angular.copy(state);
-					
+
 					for(var i = 0; i < 9; ++i){
 						for(var j = 0; j < 9; ++j){
 							if(state[i][j].length > 1){
@@ -124,7 +124,7 @@ define(['angular', './main', '../services/all'],
 					return [];
 				}
 			}
-			
+
 			function doArc(state){
 				var square;
 				var wasUpdated = true;
@@ -139,7 +139,7 @@ define(['angular', './main', '../services/all'],
 				}
 				return getStatus(state);
 			}
-			
+
 			function getStatus(state){
 				for(var i = 0; i < 9; ++i){
 					for(var j = 0; j < 9; ++j){
@@ -153,14 +153,14 @@ define(['angular', './main', '../services/all'],
 				}
 				return DONE;
 			}
-			
+
 			function doArcOnSquare(state, x, y){
 				var square = state[x][y],
 					wasUpdated = false;
-				
+
 				var positionFulfilled;
 				var falseIndex;
-				
+
 				positionFulfilled = new Array(9);
 				for(var i = 0; i < 9; ++i){
 					if(i != y){
@@ -173,7 +173,7 @@ define(['angular', './main', '../services/all'],
 				wasUpdated 
 					= wasUpdated || updateInclusionRequirement(square, 
 											positionFulfilled);
-				
+
 				positionFulfilled = new Array(9);
 				for(var i = 0; i < 9; ++i){
 					if(i != x){
@@ -186,11 +186,11 @@ define(['angular', './main', '../services/all'],
 				wasUpdated 
 					= wasUpdated || updateInclusionRequirement(square, 
 											positionFulfilled);
-				
+
 				positionFulfilled = new Array(9);
 				var groupingX = Math.floor(x / 3);
 				var groupingY = Math.floor(y / 3);
-				
+
 				for(var i = 0; i < 3; ++i){
 					for(var j = 0; j < 3; ++j){
 						if(groupingX*3+i != x || groupingY*3+j != y){
@@ -205,7 +205,7 @@ define(['angular', './main', '../services/all'],
 				wasUpdated 
 					= wasUpdated || updateInclusionRequirement(square, 
 											positionFulfilled);
-				
+
 				return wasUpdated;
 			}
 
@@ -223,10 +223,10 @@ define(['angular', './main', '../services/all'],
 				}
 				return wasUpdated;
 			}
-			
+
 			function updateInclusionRequirement(square, array){
 				var index;
-				
+
 				for(var i = 1; i <= 9; ++i){
 					if(!array[i] && index == null){
 						index = i;
@@ -235,7 +235,7 @@ define(['angular', './main', '../services/all'],
 						return false;
 					}
 				}
-				
+
 				if(index != null){
 					var updated = false;
 					for(var i = 0; i < square.length; ++i){
@@ -250,7 +250,7 @@ define(['angular', './main', '../services/all'],
 					return false;
 				}
 			}
-			
+
 		}]);
-	
+
 	});

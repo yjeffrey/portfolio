@@ -1,13 +1,13 @@
-define(['mathjax', 'jquery', './main', 'math', '../services/all'],
-	function (MathJax, $, controllerModule) {
+define(['mathjax', './main'],
+	function (MathJax, controllerModule) {
 	
 		controllerModule
-		.controller('PiController', ['$scope', 'PageManipulationService',
-			function($scope, PageManipulationService) {
+		.controller('PiController', ['$scope',
+			function($scope) {
 				
 				$scope.Math = Math;
 				
-				$scope.monteCarloN = 1;
+				$scope.monteCarloN = 1000;
 				$scope.absN = 1;
 				$scope.cosN = 1;
 				

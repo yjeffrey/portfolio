@@ -6,19 +6,19 @@ define(['angular',
 	'app/services/all', 
 	'ui-router'],
 	function (angular, controllers, directives, services) {
-	
+
 		var app = angular.module('app', [controllers.name, 
 										directives.name,
 										services.name,
 										'ui.router']);
 		console.log("App module initialized");
-		
+
 		app.config([
 		'$stateProvider', '$urlRouterProvider', '$locationProvider',
 		function($stateProvider, $urlRouterProvider, $locationProvider) {
 
 			$urlRouterProvider.otherwise("/404");
-			
+
 			$stateProvider
 				.state('base', {
 					abstract: true,
@@ -55,7 +55,7 @@ define(['angular',
 									var timer = $timeout(function(){
 										 $state.go('base.home');
 									}, 3000);
-									
+
 								   $scope.$on("$destroy", function(event){
 										if(timer != null){
 											$timeout.cancel(timer);
@@ -97,6 +97,15 @@ define(['angular',
 						}
 					}
 				})
+				.state('base.demo.wave', {
+					url: "/wave",
+					views: {
+						"main@": {
+							templateUrl: "partials/demos.wave.html",
+							controller: 'WaveController'
+						}
+					}
+				})
 				.state('base.demo.quadrature', {
 					url: "/quadrature",
 					views: {
@@ -106,10 +115,19 @@ define(['angular',
 						}
 					}
 				});
-				
+
 			$locationProvider.html5Mode(true);
 		}]);
 		
-		
+		app.run(['$rootScope', 'PageManipulationService',
+			function($rootScope, PageManipulationService) {
+			
+				$rootScope.$on('$stateChangeStart', 
+					function(event, toState, toParams, fromState, fromParams){
+						PageManipulationService.scrollTo("body", 'fast');
+					});
+			
+			}]);
+
 		return app;
 	});

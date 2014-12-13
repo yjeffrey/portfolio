@@ -1,9 +1,9 @@
-define(['mathjax', './main', '../services/all'],
-	function (MathJax, controllerModule, services) {
+define(['mathjax', './main'],
+	function (MathJax, controllerModule) {
 	
 		controllerModule
-		.controller('ModuloController', ['$scope', 'PageManipulationService', 
-		function($scope, PageManipulationService) {
+		.controller('ModuloController', ['$scope', 
+		function($scope) {
 			$scope.number = 5;
 			$scope.moduloNumber = 2;
 			$scope.state = 0;
