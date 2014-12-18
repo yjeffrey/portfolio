@@ -114,6 +114,15 @@ define(['angular',
 							controller: 'QuadratureController'
 						}
 					}
+				})
+				.state('base.demo.test', {
+					url: "/test",
+					views: {
+						"main@": {
+							templateUrl: "partials/demos.test.html",
+							controller: 'TestController'
+						}
+					}
 				});
 
 			$locationProvider.html5Mode(true);

@@ -6,6 +6,7 @@ define(['./main',
 	'./modulo',
 	'./navbar',
 	'./wave',
+	'./test',
 	'./quadrature'],
 	function (controllerModule) {
 		return controllerModule;

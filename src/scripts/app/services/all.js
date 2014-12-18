@@ -1,6 +1,7 @@
 define(['./main',
-	'./demos',
-	'./page_manipulator'],
+	'./provider.socket',
+	'./service.demos',
+	'./service.page_manipulator'],
 	function (servicesModule) {
 		return servicesModule;
 	});

@@ -6,13 +6,14 @@ requirejs.config({
 		"angular": "//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min",
 		"angular-strap": "//cdnjs.cloudflare.com/ajax/libs/angular-strap/2.1.2/angular-strap.min",
 		"angular-strap.tpl": "//cdnjs.cloudflare.com/ajax/libs/angular-strap/2.1.2/angular-strap.tpl.min",
-        "bootstrap": "//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min",
+        "bootstrap": "//netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min",
         "c3": "//cdnjs.cloudflare.com/ajax/libs/c3/0.3.0/c3.min",
         "d3": "//cdnjs.cloudflare.com/ajax/libs/d3/3.4.13/d3.min",
 		"jquery": "//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min",
 		"math": "//cdnjs.cloudflare.com/ajax/libs/mathjs/1.0.1/math.min",
 		"mathjax": "//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML",
 		"modernizr": "//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min",
+		"socket.io": "/socket.io/socket.io",
 		"three": "//cdnjs.cloudflare.com/ajax/libs/three.js/r69/three.min",
 		"three.orbit-control": "lib/OrbitControls",
         "ui-router": "//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.11/angular-ui-router.min" 
@@ -44,6 +45,9 @@ requirejs.config({
 		},
         "modernizr" : { 
 			"exports": "Modernizr"
+		},
+        "socket.io" : { 
+			"exports": "io"
 		},
         "three" : { 
 			"exports": "THREE"

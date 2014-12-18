@@ -28,6 +28,8 @@ define(['./main', 'three', 'modernizr', 'jquery'],
 
 					var cross;
 					
+					var active = true;
+					
 					if (Modernizr.webgl){
 						init();
 						animate();
@@ -51,6 +53,10 @@ define(['./main', 'three', 'modernizr', 'jquery'],
 						});
 						notAvailable.appendTo(container);
 					}
+					
+					scope.$on('$destroy', function(){
+						active = false;
+					});
 					
 					function init() {
 
@@ -114,9 +120,11 @@ define(['./main', 'three', 'modernizr', 'jquery'],
 						render();
 					}
 
-					function animate() {
-						requestAnimationFrame(animate);
-						render();
+					function animate(){
+						if(active){
+							requestAnimationFrame(animate);
+							render();
+						}
 					}
 
 					function render(){
