@@ -3,10 +3,11 @@ define(['./main'],
 
 		controllerModule
 		.controller('PianoController', 
-		['$scope', '$timeout', 'PianoSocket', 'PianoService',
-			function($scope, $timeout, PianoSocket, PianoService) {
+		['$scope', '$timeout', '$interval', 'PianoSocket', 'PianoService',
+			function($scope, $timeout, $interval, PianoSocket, PianoService) {
 				
 				var destroy = false;
+				var refreshInterval;
 				$scope.play = function(){};
 				$scope.ind = 0;
 				$scope.notWorking = false;
@@ -19,6 +20,9 @@ define(['./main'],
 				
 				$scope.$on('$destroy', function(){
 					destroy = true;
+					if(refreshInterval != null){
+						$interval.cancel(refreshInterval);
+					}
 					PianoSocket.off();
 				});
 				
@@ -36,9 +40,13 @@ define(['./main'],
 							$scope.activeKeys[i] = true;
 							$timeout(function(){
 								$scope.activeKeys[i] = false;
-							}, 300);
+							}, 200);
 						});	
 						PianoSocket.emit("population");
+						
+						var refreshInterval = $interval(function(){
+							PianoSocket.emit("population");
+						}, 3000);
 					}
 				})
 				.catch(function(error){

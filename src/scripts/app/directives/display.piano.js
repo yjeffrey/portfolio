@@ -33,7 +33,7 @@ define(['jquery', './main'],
 										scope.activeKeys[i] = true;
 										$timeout(function(){
 												scope.activeKeys[i] = false;
-										}, 300);
+										}, 200);
 									})(i);
 								}
 							}
