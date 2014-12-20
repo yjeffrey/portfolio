@@ -9,6 +9,11 @@ body {
 .row{
 	margin: 15px 0;
 }
+.row.thin,
+.row.thin h4{
+	margin-top: 0;
+	margin-bottom: 0;
+}
 .row.title{
 	margin: 0;
 }
@@ -229,6 +234,92 @@ table.fsm tr.current td:first-child,
 table.fsm tr.nextStep{
 	background-color: #C9FCB4;
 }
+
+/* piano */
+div.piano{
+	padding: 0;
+}
+
+div.piano ol{ 
+	position: relative; 
+	margin: 0 0 10px; 
+	display: inline-block;
+	float: left;
+	font-size: 0;
+	width: 100%;
+	padding: 25px 0;
+	border: solid 1px black;
+}
+
+div.piano ol li{
+	position: relative;
+	
+	font-size: 16px;
+	display: inline-block;
+	padding: 220px 15px 50px;
+	z-index: 1;
+	cursor: pointer;
+	background: white;
+	width: 6.66%;
+	text-align: center;
+	
+	border: 1px solid black;
+	border-radius: 0 0 5px 5px;
+	box-shadow: 0 5px 5px #aaa;
+	
+	border-bottom-width: 5px;
+	border-bottom-color: #5b5b5b;
+	
+	border-top-width: 1px;
+	border-top-color: black;
+	
+	top: 0;
+} 
+
+@media only screen and (max-width: 600px){
+	div.piano ol li{
+		width: 12%;
+	}
+}
+
+div.piano ol li:active,
+div.piano ol li.active{
+	box-shadow: 0 0 0 #aaa;
+	top: 5px;
+} 
+
+div.piano ol li:first-child{
+	border-left-width: 2px;
+} 
+
+div.piano ol li:last-child{
+	border-right-width: 2px;
+} 
+
+div.piano ol li.black {
+	z-index: 2;
+	top: initial;
+	position: absolute;
+	margin-left: -2.5%; 
+	padding: 130px 0px 10px;
+	background: rgb(27, 27, 27);
+	color: white;
+	width: 5%;
+	
+	border: 1px solid #ccc;
+    border-width: 0 6px 12px;
+    border-color: #000;
+    border-bottom-color: #424546;
+	
+	box-shadow: 0 0 0 #aaa;
+	margin-top: 0;
+}
+
+div.piano ol li.black:active,
+div.piano ol li.black.active{
+	border-top: solid 5px rgb(39, 39, 39);
+    border-bottom-width: 7px;
+} 
 
 /* contact */
 input#MyEmail.form-control[disabled] {

@@ -6,7 +6,8 @@ define(['./main'],
 			'base.demo.quadrature',
 			'base.demo.modulo',
 			'base.demo.wave',
-			'base.demo.pi'
+			'base.demo.pi',
+			'base.demo.piano'
 		]);
 		
 		servicesModule.factory('DemoService', ['demos', function(demos) {
@@ -18,5 +19,6 @@ define(['./main'],
 					return demos[Math.floor(Math.random() * demos.length)];
 				}
 			};
+			
 		}]);
 	});

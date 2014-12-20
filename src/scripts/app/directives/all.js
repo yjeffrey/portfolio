@@ -1,6 +1,7 @@
 define(['./main',
-	'./jumbotron-background',
-	'./wave-display'],
+	'./display.jumbotron',
+	'./display.piano',
+	'./display.wave'],
 	function (directiveModule) {
 		return directiveModule;
 	});

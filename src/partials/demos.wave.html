@@ -23,47 +23,67 @@
 			<h3>
 				The 2D wave equation
 			</h3>
-			<h4>
-				<script type="math/tex">
-					\frac{{\partial ^2 u}}{{\partial t^2 }} = c^2 \nabla^2 u^2
-					= c^2 (\frac{{\partial ^2 u}}{{\partial x^2 }} + \frac{{\partial ^2 u}}{{\partial y^2 }} )       
-				</script>
-			</h4>
+			<div class="row thin">
+				<div class="col-xs-12">
+					<h4>
+						<script type="math/tex">
+							\frac{{\partial ^2 u}}{{\partial t^2 }} = c^2 \nabla^2 u^2
+							= c^2 (\frac{{\partial ^2 u}}{{\partial x^2 }} + \frac{{\partial ^2 u}}{{\partial y^2 }} )       
+						</script>
+					</h4>
+				</div>
+			</div>
 			<h3>
 				Discretized using a second-order second-derivative difference equation
 			</h3>
-			<h4>
-				<script type="math/tex">
-					\frac{{\partial ^2 u}}{{\partial z^2 }}(x,y,z) \approx
-					\frac{u(x,y,z+h) - u(x,y,z) + u(x,y,z-h)}{h^2}
-				</script>
-			</h4>
+			<div class="row thin">
+				<div class="col-xs-12">
+					<h4>
+						<script type="math/tex">
+							\frac{{\partial ^2 u}}{{\partial z^2 }}(x,y,z) \approx
+							\frac{u(x,y,z+h) - u(x,y,z) + u(x,y,z-h)}{h^2}
+						</script>
+					</h4>
+				</div>
+			</div>
 			<h3>
 				yields
 			</h3>
-			<h4>
-				<script type="math/tex">
-					u_{x,y,t+1} \approx \frac{c*k^2}{h^2}
-					(B) 
-					+2 u_{x,y,t} - u_{x,y,t-1}
-				</script>
-				<script type="math/tex">
-					B = u_{x+1,y,t} +u_{x-1,y,t} + 
-						u_{x,y-1,t} + u_{x,y+1,t} - 4 u_{x,y,t}
-				</script>
-			</h4>
+			<div class="row thin">
+				<div class="col-xs-12">
+					<h4>
+						<script type="math/tex">
+							u_{x,y,t+1} \approx \frac{c*k^2}{h^2}
+							(B) 
+							+2 u_{x,y,t} - u_{x,y,t-1}
+						</script>
+						<script type="math/tex">
+							B = u_{x+1,y,t} +u_{x-1,y,t} + 
+								u_{x,y-1,t} + u_{x,y+1,t} - 4 u_{x,y,t}
+						</script>
+					</h4>
+				</div>
+			</div>
 			<h3>
 				Smoothing
 			</h3>
-			<h4>
-				<div>Let v be the value post-smoothing, and w be the 
-				smoothing factor</div>
-				<script type="math/tex">
-					v_{x,y,t+1} = (1-w) u_{x,y,t+1} 
-					+ \frac{w}{4} (u_{x+1,y,t+1} +u_{x-1,y,t+1} + 
-						u_{x,y-1,t+1} + u_{x,y+1,t+1})
-				</script>
-			</h4>
+			<div class="row thin">
+				<div class="col-xs-12">
+					<h4>
+						<div>Let v be the value post-smoothing, and w be the 
+						smoothing factor</div>
+						<script type="math/tex">
+							v_{x,y,t+1} = (1-w) u_{x,y,t+1} 
+							+ \frac{w}{4} (C)
+						</script>
+						<script type="math/tex">
+							C = u_{x+1,y,t+1} +u_{x-1,y,t+1} + 
+								u_{x,y-1,t+1} + u_{x,y+1,t+1}
+						</script>
+					</h4>
+					</h4>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div class="row" style="padding: 0; margin: 0;">

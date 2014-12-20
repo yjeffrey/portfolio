@@ -1,0 +1,43 @@
+<div class="container">
+	<div class="row">
+		<h1>The Public Piano</h1>
+		<div class="col-xs-12">
+			<p>
+				This is a public piano. Anyone can play it at anytime,
+				and any number of people can be playing it at anytime also.
+			</p>
+			<p>
+				This demo primarily uses socket.io and web audio api. 
+				
+				Not all browsers support both of these technologies, but they
+				should be widely adopted by the latest version of any browser sometime 
+				int 2015.
+			</p>
+			<p>
+				Socket.io is used to transmit notes played, and other interactions
+				between clients quickly in real-time. If you're using a relatively
+				modern browser, web-sockets should be the underlining transport being used.
+				This is the preferred transport as it uses persistent connections instead of
+				other hacky socket implementations such as long-polling.
+			</p>
+			<p>
+				There was also a large amount of work put in to ensure that
+				this part of the application is scalable. The number of players
+				shown is accurate when several web-app instances are used. The number 
+				is also correct when an instance fails unexpectedly, and when
+				an instance is restarted.
+			</p>
+		</div>
+		<h4>
+			Click anywhere inside the box below to start playing!
+		</h4>
+		<div class="col-xs-12">
+			<p>
+				Current Population: {{population}}
+			</p>
+		</div>
+		<div class="col-xs-12 piano" style="min-width: 480px">
+			<div piano play="play" active-keys="activeKeys" visual-disable="notWorking"></div>
+		</div>
+	</div>
+</div>

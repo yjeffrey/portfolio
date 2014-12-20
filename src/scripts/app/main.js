@@ -115,12 +115,12 @@ define(['angular',
 						}
 					}
 				})
-				.state('base.demo.test', {
-					url: "/test",
+				.state('base.demo.piano', {
+					url: "/piano",
 					views: {
 						"main@": {
-							templateUrl: "partials/demos.test.html",
-							controller: 'TestController'
+							templateUrl: "partials/demos.piano.html",
+							controller: 'PianoController'
 						}
 					}
 				});
