@@ -1,0 +1,69 @@
+<div class="container">
+	<div class="row">
+		<h1>A Sudoku Solver</h1>
+		<div class="col-sm-6">
+			<p>
+				A very simple sudoku solver which will try to generate all the possible solutions.
+				It utilizes arc consistency, and search to solve the puzzle.
+			</p>
+			<p>
+				This was originally implemented in C++, and ran through command prompt.
+				It was inspired by an uneventful Friday night back in the summer of 2013.
+			</p>
+			<p>
+				If there are too many possible solutions, the script will only produce the
+				first {{MAX_SOLUTION_COUNT}} found. 
+				This is to stop the browser from trying to generate what could be
+				billions of billions of billions of billions of solutions.
+			</p>
+		</div>
+		<div class="col-sm-6">
+			<form ng-submit="solve()" role="form">
+				<div class="row">
+					<div class="row sudoku-row" ng-repeat="row in sudokuGame">
+						<div class="col-xs-1 sudoku-square" ng-repeat="square in row track by $index">
+							<input ng-model="sudokuGame[$parent.$index][$index]" 
+								type="number" name="quantity" 
+								step=1 min=1 max=9
+								class="no-webkit sudoku-square">
+							</input>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<button class="btn btn-lg btn-primary btn-success" type="submit">
+						Solve!
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div id="SudokuSolutions" class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				The Solutions
+			</h3>
+		</div>
+		<div class="panel-body row" style="margin-top: 0">
+			<div ng-show="solutions != null && solutions.length > 0" class="alert alert-success" role="alert">
+				Here are your solution{{solutions.length > 1 ? 's' : ''}}!! </br>
+				Number of solutions found (capped at {{MAX_SOLUTION_COUNT}}): {{solutions.length}}
+			</div>
+			<div ng-show="solutions == null" class="alert alert-info" role="alert">
+				Press the Solve button to generate the solution(s)!!
+			</div>
+			<div ng-show="solutions != null && solutions.length == 0" class="alert alert-warning" role="alert">
+				No solutions found. The initial problem is probably unsolvable.
+			</div>
+			<div class="col-sm-4 repeat-animation" ng-repeat="solution in solutions">
+				<div class="row">
+					<div class="row sudoku-row" ng-repeat="row in solution">
+						<div class="col-xs-1 sudoku-square sudoku-square-p" ng-repeat="square in row">
+							<p class="sudoku-square">{{square[0]}}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

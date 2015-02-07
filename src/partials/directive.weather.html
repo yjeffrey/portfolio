@@ -1,0 +1,241 @@
+<style>
+	.info {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+	}
+	.info h4 {
+		margin: 0 0 5px;
+		color: #777;
+	}
+</style>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			Map of Canada
+		</h3>
+	</div>
+	<div class="panel-body">
+		<div class="btn-group btn-group-justified" role="group">
+			<div class="btn-group" role="group">
+				<button class="btn btn-default" ng-click="state = TEMPERATURE"
+					ng-class="{'active': state == TEMPERATURE}">
+					Temperature
+				</button>
+			</div>
+			<div class="btn-group" role="group">
+				<button class="btn btn-default" ng-click="state = PRESSURE"
+					ng-class="{'active': state == PRESSURE}">
+					Pressure
+				</button>
+			</div>
+			<div class="btn-group" role="group">
+				<button class="btn btn-default" ng-click="state = HUMIDITY"
+					ng-class="{'active': state == HUMIDITY}">
+					Relative Humidity
+				</button>
+			</div>
+		</div>
+		<div id="map"
+			class="row"
+			style="border: solid 1px black; width: 100%; height: calc(100vh - 320px);
+				min-height: 500px">
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<table>
+					<thead>
+						<tr>
+							<th ng-repeat="color in range track by $index"
+								style="width: 1%">
+								<span ng-show="state == TEMPERATURE">
+									{{($index == 0) ? '-50C' : ''}}
+									{{($index == 51) ? '0C' : ''}}
+									{{($index == $parent.range.length -1) ? '50C' : ''}}
+								</span>
+								<span ng-show="state == PRESSURE">
+									{{($index == 0) ? '100KPa' : ''}}
+									{{($index == 51) ? '104KPa' : ''}}
+									{{($index == $parent.range.length -1) ? '108KPa' : ''}}
+								</span>
+								<span ng-show="state == HUMIDITY">
+									{{($index == 0) ? '0%' : ''}}
+									{{($index == 51) ? '50%' : ''}}
+									{{($index == $parent.range.length -1) ? '100%' : ''}}
+								</span>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td ng-repeat="color in range track by $index" ng-style="{
+								'background-color': color
+							}">
+								<div style="min-height:15px"></div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="row">
+					<span style="display:inline-block; height:15px; width: 15px; 
+						background-color: black"></span>
+					<span>No Data</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="StationForm" class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			Find a Station
+		</h3>
+	</div>
+	<div class="panel-body">
+		<form class="form-inline" role="form">
+			<div class="form-group">
+				<label><i class="fa fa-globe"></i> Station</label>
+				<input type="text" class="form-control" 
+					ng-model="station" 
+					ng-options="stat as stat.station_name for stat in stations" 
+					placeholder="Enter station name" bs-typeahead>
+			</div>
+		</form>
+	</div>
+</div>
+<div id="StationDetails" class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title" ng-show="station != null && station.id != null">
+			{{station.station_name}}
+		</h3>
+		<h3 class="panel-title" ng-show="station == null || station.id == null">
+			No Station Selected
+		</h3>
+	</div>
+	<div class="panel-body" ng-show="station != null && station.id != null">
+		<div class="alert" 
+			ng-class="{
+				'alert-danger': station.readings[0].warning.type == 'warning',
+				'alert-info': station.readings[0].warning.type != 'warning'
+			}" role="alert" 
+			ng-show="station.readings[0].warning != null">
+			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			<span class="sr-only">Error:</span>
+			There is a {{station.readings[0].warning.type}} event of 
+			{{station.readings[0].warning.priority}} priority!!
+			<a ng-href="http://weather.gc.ca/warnings/report_e.html?
+			{{station.readings[0].warning.url}}"
+			target="_blank">
+				Click here for the official statement
+			</a>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<table>
+					<thead>
+						<tr>
+							<th>
+								Selected Station:
+							</th>
+							<td>
+								{{station.station_name}}
+							</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr><td><i>Country:</i></td>
+							<td>
+								{{station.country}}
+							</td>
+						</tr>
+						<tr>
+							<td><i>Province:</i></td>
+							<td>
+								{{station.province}}
+							</td>
+						</tr>
+						<tr>
+							<td><i>Region:</i></td>
+							<td>
+								{{station.region}}
+							</td>
+						</tr>
+						<tr>
+							<td><i>[Latitude, Longitude]:</i></td>
+							<td>
+								[{{station.latitude}}, {{station.longitude}}]
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<table>
+					<thead>
+						<tr>
+							<th>
+								Latest Reading:
+							</th>
+							<td>
+								{{station.readings[0].timestamp.toString()}}
+							</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><i>Condition:</i></td>
+							<td>
+								{{station.readings[0].condition || "No Data"}}
+							</td>
+						</tr>
+						<tr>
+							<td><i>Temperature:</i></td>
+							<td>
+								{{station.readings[0].temperature.value === null ?
+								'xx' : station.readings[0].temperature.value}} C
+							</td>
+						</tr>
+						<tr>
+							<td><i>Pressure:</i></td>
+							<td>
+								{{station.readings[0].pressure.value === null ?
+								'xx' : station.readings[0].pressure.value}} KPa
+							</td>
+						</tr>
+						<tr>
+							<td><i>Relative Humidity:</i></td>
+							<td>
+								{{station.readings[0].relativeHumidity.value === null ?
+								'xx' : station.readings[0].relativeHumidity.value}} %
+							</td>
+						</tr>
+						<tr>
+							<td><i>Visibility:</i></td>
+							<td>
+								{{station.readings[0].visibility.value === null ?
+								'xx' : station.readings[0].visibility.value}} Km
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<h4>Temperature</h4>
+				<div id="ReadingTemperaturePlot" style="width:100%; height: 300px"></div>
+				<h4>Pressure</h4>
+				<div id="ReadingPressurePlot" style="width:100%; height: 300px"></div>
+				<h4>Relative Humidity</h4>
+				<div id="ReadingHumidityPlot" style="width:100%; height: 300px"></div>
+				<h4>Visibility</h4>
+				<div id="ReadingVisibilityPlot" style="width:100%; height: 300px"></div>
+			</div>
+		</div>
+	</div>
+</div>

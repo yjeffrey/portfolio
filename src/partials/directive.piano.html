@@ -1,0 +1,69 @@
+<ol ng-keypress="keypress($event)" tabindex="0" ng-hide="notWorking">
+	<li ng-click="play(0)" 
+		ng-class="{active: activeKeys[0]}">z</li>
+	<li class="black" 
+		ng-class="{active: activeKeys[1]}"
+		ng-click="play(1)">s</li>
+	<li ng-click="play(2)"
+		ng-class="{active: activeKeys[2]}">x</li>
+	<li class="black"
+		ng-class="{active: activeKeys[3]}"
+		ng-click="play(3)">d</li>
+	<li ng-click="play(4)"
+		ng-class="{active: activeKeys[4]}">c</li>
+	<li ng-click="play(5)"
+		ng-class="{active: activeKeys[5]}">v</li>
+	<li class="black"
+		ng-class="{active: activeKeys[6]}"
+		ng-click="play(6)">g</li>
+	<li ng-click="play(7)"
+		ng-class="{active: activeKeys[7]}">b</li>
+	<li class="black"
+		ng-class="{active: activeKeys[8]}"
+		ng-click="play(8)">h</li>
+	<li ng-click="play(9)"
+		ng-class="{active: activeKeys[9]}">n</li>
+	<li class="black"
+		ng-class="{active: activeKeys[10]}"
+		ng-click="play(10)">j</li>
+	<li ng-click="play(11)"
+		ng-class="{active: activeKeys[11]}">m</li>
+	<li ng-click="play(12)"
+		ng-class="{active: activeKeys[12]}">,</li>
+	<li ng-click="play(13)"
+		ng-class="{active: activeKeys[13]}"
+		class="black">l</li>
+	<li ng-click="play(14)"
+		ng-class="{active: activeKeys[14]}">.</li>
+	<li ng-click="play(15)"
+		ng-class="{active: activeKeys[15]}"
+		class="black">;</li>
+	<li ng-click="play(16)"
+		ng-class="{active: activeKeys[16]}">/</li>
+	<li ng-click="play(17)"
+		ng-class="{active: activeKeys[17]}">q</li>
+	<li ng-click="play(18)"
+		ng-class="{active: activeKeys[18]}"
+		class="black">2</li>
+	<li ng-click="play(19)"
+		ng-class="{active: activeKeys[19]}">w</li>
+	<li ng-click="play(20)"
+		ng-class="{active: activeKeys[20]}"
+		class="black">3</li>
+	<li ng-click="play(21)"
+		ng-class="{active: activeKeys[21]}">e</li>
+	<li ng-click="play(22)"
+		ng-class="{active: activeKeys[22]}"
+		class="black">4</li>
+	<li ng-click="play(23)"
+		ng-class="{active: activeKeys[23]}">r</li>
+	<li ng-click="play(24)"
+		ng-class="{active: activeKeys[24]}">t</li>
+</ol>
+<div class="col-xs-12" style="background-color: gray; text-align: center" ng-show="notWorking">
+	<h4 style="color: red; background-color: white; 
+		border: solid 1px black; display: inline-block;
+		padding: 5px; margin: 15px">
+		Your browser does not fully support Web Audio API. Sorry.
+	</h4>
+</div>

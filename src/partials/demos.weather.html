@@ -1,0 +1,37 @@
+<div class="container">
+	<div class="row">
+		<h1>Canadian Weather Visualization</h1>
+		<div class="col-sm-12">
+			<p>
+				Canadian weather tends to be on the chilly side. With the map below,
+				you can know just exactly how cold it is at different points within the
+				country using the active feed below; the map checks every 30 seconds
+				for any new data to display.
+			</p>
+			<p>
+				This demo uses weather data gathered by
+				<a href="http://dd.weather.gc.ca/citypage_weather/xml"
+					target="_blank">
+					weather stations
+				</a>
+				all around Canada. A worker periodically pulls in data from the 
+				website into a MongoDB instance. Another worker periodically
+				aggregates all the relevant data in the database and stores
+				it as a consumable format for the web application in a Redis cache.
+			</p>
+			<p>
+				By using workers to gather, and analyse the data. There is little 
+				additional strain on the web server. This also demonstrates the 
+				importance of dividing labour between processes; the web servers'
+				performance will not suffer when the weather data is gathered
+				nor analysed.
+			</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12">
+			<div weather-display stations="stations" station-click="getReadingsFor">
+			</div>
+		</div>
+	</div>
+</div>
