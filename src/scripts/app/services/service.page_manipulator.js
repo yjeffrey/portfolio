@@ -17,6 +17,12 @@ define(['jquery', './main'],
 				},
 				goToTop: function(){
 					$('html,body').scrollTop(0);
+				},
+				loading: function(){
+					$('html').addClass('loading');
+				},
+				complete: function(){
+					$('html').removeClass('loading');
 				}
 			};
 		});

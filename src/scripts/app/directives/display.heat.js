@@ -1,56 +1,37 @@
-define(['./main', 'three', 'three.skyshader', 'modernizr'],
-	function (directiveModule, THREE, SkyShader, Modernizr) {
+define(['./main', 'three', 'modernizr'],
+	function (directiveModule, THREE, Modernizr) {
 
 		directiveModule
-		.directive('waveDisplay', [function() {
+		.directive('heatDisplay', [function() {
 			return {
 				scope: {
 					grid: '=grid',
-					wireframe: '=wireframe',
 					zFactor: '=zFactor'
 				},
 				link: function(scope, element, attrs) {
-						
-					var texture;
 
-					var container, stats;
+					var container;
 
 					var camera, scene, renderer;
 					
 					var meshXLength,
 						meshYLength,
+						meshZLength,
 						meshXStep,
-						meshYStep;
+						meshYStep,
+						meshZStep;
 						
-					var mesh;
+					var sphereMeshes,
+						sphereGeometry = new THREE.SphereGeometry( 10, 16, 16);
 					
-					var cameraRadius = 500,
-						cameraHeight = 100;
-
-					var cross;
+					var cameraRadius = 400;
 					
 					var active = true;
 					
 					if (Modernizr.webgl){ 
-						// texture = THREE.ImageUtils.loadTexture(
-							// "assets/textures/watereditededited.jpg", {}, 
-							// function() {
-								// texture.wrapS = THREE.RepeatWrapping;
-								// texture.wrapT = THREE.RepeatWrapping;
-								// texture.repeat.set(16, 16);
-								// init();
-								// animate();
-								// render();
-							// });
-						texture = THREE.ImageUtils.loadTexture(
-							"assets/textures/blackwhite.jpg", {}, 
-							function() {
-								texture.wrapS = THREE.RepeatWrapping;
-								texture.wrapT = THREE.RepeatWrapping;
-								init();
-								animate();
-								render();
-							});
+						init();
+						animate();
+						render();
 					} 
 					else{
 						var notAvailable = $('<div>' +
@@ -81,16 +62,15 @@ define(['./main', 'three', 'three.skyshader', 'modernizr'],
 							new THREE.PerspectiveCamera(60, 
 							window.innerWidth / window.innerHeight, 
 							1, 10000000);
-						camera.position.y = cameraHeight;
-						camera.position.x = cameraRadius / Math.pow(3, 0.5);
-						camera.position.z = cameraRadius ;
+						camera.position.z = 
+							camera.position.x =
+							camera.position.y = cameraRadius* 1.75;
 						camera.lookAt(new THREE.Vector3(0,0,0));
 
 						scene = new THREE.Scene();
-						scene.fog = new THREE.FogExp2( 0xcccccc, 0.002 );
-
+						
 						// world
-						generateMesh();
+						// generateMesh();
 						
 						// lights
 						light = new THREE.DirectionalLight(0xffffff, 1);
@@ -102,9 +82,6 @@ define(['./main', 'three', 'three.skyshader', 'modernizr'],
 
 
 						light = new THREE.AmbientLight(0x222222);
-						scene.add( light );
-						
-						light = new THREE.HemisphereLight( 0x0000ff, 0x00ff00, 0.3 ); 
 						scene.add( light );
 						
 						// sky 
@@ -166,6 +143,11 @@ define(['./main', 'three', 'three.skyshader', 'modernizr'],
 						if(active){
 							requestAnimationFrame(animate);
 							render();
+							
+							camera.applyMatrix( 
+									new THREE.Matrix4().makeRotationY( 0.005 )
+							);
+							camera.updateMatrixWorld();
 						}
 					}
 
@@ -177,85 +159,80 @@ define(['./main', 'three', 'three.skyshader', 'modernizr'],
 							scope.grid[0].length == meshXLength){
 						}
 						else{
+							meshZLength = scope.grid[0][0].length;
 							meshXLength = scope.grid[0].length;
 							meshYLength = scope.grid.length;
-							meshXStep = cameraRadius * 3 / meshXLength;
-							meshYStep =  cameraRadius * 3 / meshYLength;
+							meshXStep = cameraRadius * 2 / meshXLength;
+							meshYStep =  cameraRadius * 2 / meshYLength;
+							meshZStep =  cameraRadius * 2 / meshZLength;
 							generateMesh();
 						}
-						for(var i = 0; i < meshYLength; ++i){
-							for(var j = 0; j < meshXLength; ++j){
-								mesh.geometry.vertices[i * meshXLength +  j].y
-								= scope.grid[i][j] * scope.zFactor;
+						
+						var n = 0;
+						for( var i = 0; i < meshXLength; i++ ) {
+							for( var j = 0; j < meshYLength; j++ ) {
+								for( var k = 0; k < meshZLength; k++ ) {
+									
+									var sphereMesh = sphereMeshes[n];
+									var color
+										= sphereMesh.material.color;
+									
+									var intensity = scope.grid[i][j][k];
+									color.setHSL(toHSL(intensity), 1, 0.5 );
+									
+									++n;
+									sphereMesh.scale.x =
+										sphereMesh.scale.y =
+										sphereMesh.scale.z = Math.log(intensity+2)/2;
+								}
 							}
 						}
-						mesh.geometry.verticesNeedUpdate = true;
-						mesh.material.wireframe = scope.wireframe;
+						
 					}
 					
 					function generateMesh(){
-						if(mesh != null){
-							scene.remove(mesh);
-						}
-						var geometry = new THREE.Geometry();
-					
-						for(var i = 0; i < meshYLength; ++i){
-							var y = i * meshYStep;
-							for(var j = 0; j < meshXLength; ++j){
-								geometry.vertices.push(
-									new THREE.Vector3(
-									j * meshXStep, 
-									scope.grid[i][j] * scope.zFactor,
-									y)
-								);
+						if(sphereMeshes != null){
+							for(var i = 0; i < sphereMeshes.length; ++i){
+								scene.remove(sphereMeshes[i]);
 							}
 						}
 						
-						var material = new THREE.MeshBasicMaterial({
-							map: texture
-						});
+						sphereMeshes = [];
 						
-						for(var i = 0; i < meshYLength - 1; ++i){
-							for(var j = 0; j < meshXLength - 1; ++j){
-								geometry.faces.push(
-									new THREE.Face3(
-									i * meshXLength +  j + 1,
-									i * meshXLength +  j,
-									(i+1) * meshXLength +  j + 1)
-								);
-								geometry.faces.push(
-									new THREE.Face3(
-									(i * meshXLength) +  j,
-									(i+1) * meshXLength +  j,
-									(i+1) * meshXLength  +  j + 1)
-								);
-								
-								geometry.faceVertexUvs[ 0 ].push([
-									new THREE.Vector2( 0, 0 ),
-									new THREE.Vector2( 0, 1 ),
-									new THREE.Vector2( 1, 0 ),    
-								]);
-
-								geometry.faceVertexUvs[ 0 ].push([
-									new THREE.Vector2( 0, 1 ),
-									new THREE.Vector2( 1, 1 ),
-									new THREE.Vector2( 1, 0 ),    
-								]);
+						for( var i = 0; i < meshXLength; i++ ) {
+							for( var j = 0; j < meshYLength; j++ ) {
+								for( var k = 0; k < meshZLength; k++ ) {
+									
+									var intensity = scope.grid[i][j][k];
+									var color = new THREE.Color( 1,1,1 );
+									color.setHSL(toHSL(intensity), 1, 0.5 );
+									
+									var material = new THREE.MeshBasicMaterial( {color: color} );
+									var sphere 
+										= new THREE.Mesh( sphereGeometry, material );
+										
+									sphere.position.x = (i+.5) * meshXStep - meshXLength * meshXStep * 0.5;
+									sphere.position.z = (j+.5) * meshYStep - meshYLength * meshYStep * 0.5;
+									sphere.position.y = (k+1) * meshZStep - meshZLength * meshZStep * 0.5;
+									
+									sphereMeshes.push(sphere);
+									scene.add(sphere);
+								}
 							}
 						}
-						
-						geometry.computeFaceNormals();
-						geometry.computeVertexNormals();
+					}
 					
-						mesh = new THREE.Mesh( geometry, material );
-						mesh.position.x = meshXStep * -1 * meshXLength  * 0.5;
-						mesh.position.y = 0;
-						mesh.position.z = meshYStep * -1 * meshYLength  * 0.5;
-						
-						mesh.updateMatrix();
-						mesh.matrixAutoUpdate = false;
-						mesh.geometry.dynamic = true;
-						scene.add(mesh);
+					function toHSL(number){
+						var val = -1*(number.toPrecision(2)/1800) + 0.7;
+						if(val > 1){
+							return 1;
+						}
+						else if(val < 0){
+							return 0;
+						}
+						else{
+							return val;
+						}
 					}
 				}
 				

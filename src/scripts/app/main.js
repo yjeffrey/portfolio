@@ -113,12 +113,12 @@ define(['angular',
 					url: "/demo",
 					abstract: true
 				})
-				.state('base.demo.modulo', {
-					url: "/modulo-algorithm",
+				.state('base.demo.heat', {
+					url: "/heat-equation",
 					views: {
 						"main@": {
-							templateUrl: "partials/demos.modulo.html",
-							controller: 'ModuloController'
+							templateUrl: "partials/demos.heat.html",
+							controller: 'HeatController'
 						}
 					}
 				})
@@ -194,7 +194,13 @@ define(['angular',
 			
 				$rootScope.$on('$stateChangeStart', 
 					function(event, toState, toParams, fromState, fromParams){
+						PageManipulationService.loading();
+					});
+					
+				$rootScope.$on('$stateChangeSuccess', 
+					function(event, toState, toParams, fromState, fromParams){
 						PageManipulationService.goToTop();
+						PageManipulationService.complete();
 					});
 			}]);
 

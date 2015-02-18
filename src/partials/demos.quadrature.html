@@ -49,6 +49,7 @@
 							id="IntegratedFunction"
 							class="form-control" 
 							ng-model="func"
+							required
 							placeholder="Your function of x">
 						</div>
 					</div>
@@ -64,6 +65,7 @@
 										class="form-control no-webkit" 
 										ng-model="lowerBound"
 										step="any"
+										required
 										placeholder="Lower bound">
 								</div>
 							</div>
@@ -75,6 +77,7 @@
 										class="form-control no-webkit" 
 										ng-model="upperBound"
 										step="any"
+										required
 										placeholder="Upper bound">
 								</div>
 							</div>
@@ -88,6 +91,7 @@
 							<input type="number"
 								id="ErrorBound"
 								min=0.000000000001
+								required
 								max=1
 								step="any"
 								class="form-control no-webkit" 

@@ -3,6 +3,10 @@
 	overflow: initial;
 }
 
+html.loading{
+	cursor: wait;
+}
+
 body {
 	font-family: 'Cantarell', sans-serif;
 	webkit-font-smoothing: antialiased;

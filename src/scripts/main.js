@@ -18,6 +18,7 @@ requirejs.config({
 		"priority-queue": "/scripts/lib/priority-queue.min",
 		"socket.io": "/socket.io/socket.io",
 		"three": "//cdnjs.cloudflare.com/ajax/libs/three.js/r70/three.min",
+		"three.skyshader": "/scripts/lib/SkyShader",
         "ui-router": "//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.13/angular-ui-router.min" 
 	},
     shim : {
@@ -59,6 +60,9 @@ requirejs.config({
 		},
         "three" : {
 			"exports": "THREE"
+		},
+        "three.skyshader" : {
+			"deps" :['three'],
 		},
         "ui-router" : {
 			"deps" :['angular'] 

@@ -4,7 +4,7 @@ define(['./main'],
 		servicesModule.constant('demos', [
 			'base.demo.sudoku', 
 			'base.demo.quadrature',
-			'base.demo.modulo',
+			'base.demo.heat',
 			'base.demo.wave',
 			'base.demo.pi',
 			'base.demo.piano',

@@ -127,6 +127,13 @@ define(['mathjax', 'c3', './main', 'math', '../services/all'],
 									count: 6,
 									format: function (x) { return x.toPrecision(4); }
 								}
+							},
+							y : {
+								tick: {
+									format: function(d){ 
+										return d.toPrecision(3);
+									}
+								}
 							}
 						},
 						tooltip: {

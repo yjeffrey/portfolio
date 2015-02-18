@@ -1,5 +1,5 @@
-define(['mathjax', './main', 'math', 'modernizr', '../services/all'],
-	function (MathJax, controllerModule, math, Modernizr) {
+define(['mathjax', './main', 'modernizr', '../services/all'],
+	function (MathJax, controllerModule, Modernizr) {
 	
 		controllerModule
 		.controller('WaveController', ['$scope', '$interval', 
@@ -49,7 +49,7 @@ define(['mathjax', './main', 'math', 'modernizr', '../services/all'],
 					},
 					{
 						fn:	function(x,y){
-							return 100*Math.log(Math.sqrt(Math.pow((x-L/2),2) + Math.pow((y-L/2),2))+0.0001)-1000;
+							return 500*Math.log(Math.sqrt(Math.pow((x-L/2),2) + Math.pow((y-L/2),2))+0.0001)-4800;
 						},
 						name: "Dip in Center"
 					}];

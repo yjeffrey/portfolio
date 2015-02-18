@@ -287,7 +287,9 @@ define(['./main', 'leaflet', 'jquery', 'c3'],
 							return;
 						}
 						for(var i = 0; i < charts.length; ++i){
-							charts[i].destroy();
+							try{
+								charts[i].destroy();
+							}catch(e){}
 						}
 						
 						var readings = station.readings;
