@@ -6,7 +6,7 @@ define(['mathjax', './main', 'modernizr', '../services/all'],
 				'$timeout', 'PageManipulationService',
 			function($scope, $interval, $timeout, PageManipulationService) {
 				
-				$scope.c = 0.5;
+				$scope.c = 7;
 				$scope.N = 12;
 				
 				$scope.icIndex = 0;
@@ -218,10 +218,14 @@ define(['mathjax', './main', 'modernizr', '../services/all'],
 					},
 					{
 						fn:	function(x, y, z){
-							var d = Math.sqrt(Math.pow((x-L/2),2) + 
-											Math.pow((y-L/2),2) + 
-											Math.pow((z-L/2),2));
-							return Math.min(100,(Math.exp((d-28)/500)));
+							if(x>0.40 *L && x < 0.60*L
+								&& y>0.40 *L && y < 0.60*L
+								&& z>0.40 *L && z < 0.60*L){
+								return 100;
+							}
+							else{
+								return 0;
+							}
 						},
 						name: "Heater in the Room"
 					},

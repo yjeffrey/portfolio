@@ -60,12 +60,12 @@
 				<div class="col-xs-12">
 					<h4>
 						<script type="math/tex">
-							u_{x,y,z,t} =
-								u_{x,y,z,t-1} + k*
-								(f(u_{t})) 
+							u_{x,y,z,t+1} =
+								u_{x,y,z,t} + k*
+								u_{t}
 						</script>
 						<script type="math/tex">
-							f(u_{t}) = \frac{c(u_{x-1,y,t} +u_{x+1,y,t} +
+							u_{t} = \frac{c(u_{x-1,y,t} +u_{x+1,y,t} +
 								u_{x,y-1,t} + u_{x,y+1,t} +
 								u_{x,y,z-1,t} +u_{x,y,z+1,t} 
 								- 6 u_{x,y,t})}{h^2}
@@ -136,7 +136,7 @@
 										class="form-control no-webkit" 
 										ng-model="N"
 										step="1"
-										min=5
+										min=6
 										max=15
 										required
 										placeholder="10">
@@ -169,7 +169,7 @@
 							<button class="btn btn-lg btn-primary btn-success" 
 								ng-click="start()" type="button"
 								ng-disabled="!webgl || !loaded">
-								Start Simulation!
+								Run
 							</button>
 						</div>
 					</div>

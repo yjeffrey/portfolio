@@ -51,11 +51,8 @@ textarea {
     resize: none;
 }
 
-h4.pseudo-label{
-}
-
-label.pseudo-label{
-	display: none;
+h5.pseudo-label{
+	font-weight: bold;
 }
 
 input.no-webkit[type=number]::-webkit-inner-spin-button,
